@@ -1,0 +1,41 @@
+.header {
+    background-color: #000000;
+    color: #ffffff;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000
+}
+
+.header-inner {
+    width: 100%;
+    max-width: 1512px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+}
+
+.header-logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.header-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logout-button {
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+}
