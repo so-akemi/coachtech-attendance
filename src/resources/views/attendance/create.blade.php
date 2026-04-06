@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('css/attendance.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/attendance/create.css') }}">
 @endsection
 
 @section('content')
     <div class="attendance-content">
-        {{-- ステータスごとに背景色を変えたい場合などのクラス命名 --}}
+        <!-- ステータスごとに背景色を変えたい場合などのクラス命名 -->
         <div class="status-badge status-{{ str_replace('_', '-', $status) }}">
-            {{-- 文言の出し分け --}}
+            <!-- 文言の出し分け -->
             @if ($status === 'before_work')
                 勤務外
             @elseif($status === 'working')

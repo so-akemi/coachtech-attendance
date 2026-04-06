@@ -1,3 +1,7 @@
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/auth/login.css') }}">
+@endsection
+
 <div class="login-form-content">
     <div class="login-form-heading">
         <h1>{{ $title }}</h1>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Attendance;
 use Carbon\Carbon;
+use App\Models\Rest;
 
 class AttendanceController extends Controller
 {
@@ -66,9 +67,30 @@ class AttendanceController extends Controller
     /**
      * 勤怠一覧画面を表示する
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('attendance.index');
+        $userId = Auth::id();
+
+        // クエリパラメータから月を取得、なければ今月
+        $monthParam = $request->query('month', Carbon::now()->format('Y-m'));
+        $currentMonth = Carbon::parse($monthParam);
+
+        // 前月と翌月の月文字列を作成
+        $prevMonth = $currentMonth->copy()->subMonth()->format('Y-m');
+        $nextMonth = $currentMonth->copy()->addMonth()->format('Y-m');
+
+        $attendances = Attendance::where('user_id', $userId)
+            ->whereYear('date', $currentMonth->year)
+            ->whereMonth('date', $currentMonth->month)
+            ->orderBy('date', 'asc')
+            ->get();
+
+        return view('attendance.index', compact(
+            'attendances',
+            'currentMonth',
+            'prevMonth',
+            'nextMonth'
+        ));
     }
 
     public function store(Request $request)
@@ -126,6 +148,13 @@ class AttendanceController extends Controller
             ->first();
 
         if ($attendance) {
+            // 1. Restsテーブルに新しい休憩レコードを作成（開始時刻のみ）
+            Rest::create([
+                'attendance_id' => $attendance->id,
+                'start_time'    => Carbon::now(),
+            ]);
+
+            // 2. 画面判定用に Attendance側のフラグを休憩中にする
             $attendance->update(['is_resting' => true]);
         }
 
@@ -139,6 +168,16 @@ class AttendanceController extends Controller
             ->first();
 
         if ($attendance) {
+            // この出勤に紐づく休憩のうち、まだ end_time が空のものを1つ取得
+            $latestRest = Rest::where('attendance_id', $attendance->id)
+                ->whereNull('end_time')
+                ->latest()
+                ->first();
+
+            if ($latestRest) {
+                $latestRest->update(['end_time' => Carbon::now()]);
+            }
+            // 画面判定用フラグを勤務中に戻す
             $attendance->update(['is_resting' => false]);
         }
 

@@ -2,9 +2,9 @@
     //ログイン中かつ is_admin かどうかで判定
     if (Auth::check() && Auth::user()->is_admin) {
         $headerMenus = [
-            '勤怠一覧' => '/admin/attendance/index',
-            'スタッフ一覧' => '/admin/staff/index',
-            '申請一覧' => '/requests/index',
+            '勤怠一覧' => '/admin/attendance/list',
+            'スタッフ一覧' => '/admin/staff/list',
+            '申請一覧' => '/stamp_correction_request/list',
             'ログアウト' => '/logout',
         ];
     } elseif (Auth::check()) {
@@ -14,16 +14,16 @@
         if (isset($isAfterWork) && $isAfterWork) {
             // 勤怠登録画面（退勤後など）
             $headerMenus = [
-                '今月の出勤一覧' => '/attendance/index',
-                '申請一覧' => '/requests/index',
+                '今月の出勤一覧' => '/attendance/list',
+                '申請一覧' => '/stamp_correction_request/list',
                 'ログアウト' => '/logout',
             ];
         } else {
             // 一般ユーザー（is_admin が false）の場合
             $headerMenus = [
-                '勤怠' => '/attendance/create',
-                '勤怠一覧' => '/attendance/index',
-                '申請' => '/requests/index',
+                '勤怠' => '/attendance',
+                '勤怠一覧' => '/attendance/list',
+                '申請' => '/stamp_correction_request/list',
                 'ログアウト' => '/logout',
             ];
         }
@@ -42,6 +42,7 @@
     <title>coachtech 勤怠管理アプリ</title>
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/common.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     @yield('css')
 </head>
 
