@@ -183,4 +183,74 @@ class AttendanceController extends Controller
 
         return redirect()->route('attendance.create');
     }
+
+    public function show(Request $request, $id)
+    {
+        // Eager Loadで休憩データも一緒に取得
+        $attendance = Attendance::with('rests')->findOrFail($id);
+
+        // ログインユーザー本人のデータかチェック（セキュリティ）
+        if ($attendance->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $isEditMode = $request->query('mode') === 'edit';
+
+        return view('attendance.show', compact('attendance', 'isEditMode'));
+    }
+
+    public function updateRequest(Request $request, $id)
+    {
+        // 1. データの取得
+        $attendance = Attendance::findOrFail($id);
+
+        // セキュリティ：本人のデータか確認
+        if ($attendance->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        // --- 日付を固定して時刻を合体させる関数 ---
+        $date = \Carbon\Carbon::parse($attendance->date)->format('Y-m-d');
+
+        // 2. 勤怠本体の更新
+        // ※ old() で返ってきた値や $request の値で更新します
+        $attendance->update([
+            'start_time' => $request->start_time,
+            'end_time'   => $request->end_time,
+            'note'       => $request->note,
+        ]);
+
+        // 3. 休憩データの更新
+        if ($request->has('rests')) {
+            foreach ($request->rests as $restData) {
+                // 修正対象の休憩レコードをIDで特定
+                $rest = Rest::where('attendance_id', $attendance->id)
+                            ->find($restData['id']);
+
+                if ($rest) {
+                    $rest->update([
+                        'start_time' => $restData['start_time']? $date . ' ' . $restData['start_time'] : null,
+                        'end_time'   => $restData['end_time']? $date . ' ' . $restData['end_time'] : null,
+                    ]);
+                }
+            }
+        }
+
+        if ($request->has('new_rests')) {
+        foreach ($request->new_rests as $newData) {
+            // 開始時刻が入力されている場合のみ保存
+            if (!empty($newData['start_time'])) {
+                Rest::create([
+                    'attendance_id' => $attendance->id,
+                    'start_time'    => $date . ' ' . $newData['start_time'],
+                    'end_time'      => !empty($newData['end_time']) ? $date . ' ' . $newData['end_time'] : null,
+                ]);
+                }
+            }
+        }
+
+        // 4. 詳細画面に戻る（クエリパラメータ mode=edit を外してリダイレクト）
+        return redirect()->route('attendance.show', ['id' => $id])
+                         ->with('success', '勤怠を修正しました');
+    }
 }

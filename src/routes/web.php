@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\RequestController;
+use App\Http\Controllers\Admin\AuthenticatedSessionController;
+use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +47,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('/list', [AttendanceController::class, 'index'])->name('index'); // PG04
         Route::get('/detail/{id}', [AttendanceController::class, 'show'])->name('show'); // PG05
+        Route::post('/detail/{id}', [RequestController::class, 'store'])->name('updateRequest');// 修正申請を送るアクション (PG05からのPOST先)
     });
 
     // PG06 & PG12: 申請一覧（共通パス）
@@ -57,8 +60,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function () {
 
         // PG08, PG09: 勤怠管理
-        Route::get('/attendance/list', [AttendanceController::class, 'adminIndex'])->name('attendance.index');
-        Route::get('/attendance/{id}', [AttendanceController::class, 'adminShow'])->name('attendance.show');
+        Route::get('/attendance/list', [AdminAttendanceController::class, 'index'])->name('attendance.index');
+        Route::get('/attendance/{id}', [AdminAttendanceController::class, 'show'])->name('attendance.show');
 
         // PG10, PG11: スタッフ管理
         Route::get('/staff/list', [StaffController::class, 'index'])->name('staff.index');

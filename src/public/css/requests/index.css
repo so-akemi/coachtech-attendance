@@ -1,0 +1,90 @@
+/* public/css/requests/index.css */
+/* 全体コンテナ */
+.request-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    border-left: 4px solid #000;
+    /* 左側の縦棒 */
+    padding-left: 15px;
+}
+
+/* タブエリア */
+.tabs {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 30px;
+    display: flex;
+    gap: 40px;
+}
+
+.tab-item {
+    padding-bottom: 10px;
+    text-decoration: none;
+    color: #666;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+.tab-item.active {
+    color: #000;
+    font-weight: bold;
+    border-bottom: 2px solid #000;
+    /* 選択中の下線 */
+}
+
+/* テーブルエリア：角丸と白背景 */
+.request-table {
+    width: 100%;
+    border-collapse: separate;
+    /* 角丸を効かせるために必要 */
+    border-spacing: 0;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    /* 角丸からはみ出る中身を隠す */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    /* 軽い影 */
+}
+
+.request-table th {
+    background-color: #fff;
+    color: #888;
+    font-weight: normal;
+    padding: 20px 15px;
+    border-bottom: 1px solid #f0f0f0;
+    text-align: left;
+}
+
+.request-table td {
+    padding: 20px 15px;
+    border-bottom: 1px solid #f0f0f0;
+    color: #333;
+    font-weight: 500;
+}
+
+/* 最後の行の線は消す */
+.request-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* 詳細リンク */
+.detail-link {
+    color: #000;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.detail-link:hover {
+    opacity: 0.7;
+}
+
+/* 承認待ち/承認済みテキストの色（必要に応じて） */
+.request-table td:first-child {
+    color: #555;
+}

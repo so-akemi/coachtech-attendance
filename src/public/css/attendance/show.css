@@ -1,0 +1,57 @@
+.attendance-detail {
+    max-width: 600px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+}
+
+.detail-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.detail-table th {
+    text-align: left;
+    width: 30%;
+    padding: 20px 10px;
+    border-bottom: 1px solid #eee;
+    color: #555;
+}
+
+.detail-table td {
+    padding: 20px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Chrome, Edge, Safari などの時計アイコンを非表示にする */
+.start-time::-webkit-calendar-picker-indicator,
+.end-time::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+/* もしブラウザによって余白が気になる場合は、これも追加 */
+.start-time,
+.end-time {
+    appearance: none;
+    /* 標準の見た目をリセット */
+    -moz-appearance: textfield;
+    /* Firefox用 */
+}
+
+.pending-message {
+    color: #ff4d4d;
+    /* 画像に近い赤色 */
+    text-align: right;
+    /* 右寄せ */
+    font-size: 14px;
+    margin-top: 15px;
+    /* ボタンとの間隔 */
+}
+
+.error-message {
+    color: #ff0000;
+    /* 赤色 */
+    font-size: 14px;
+    margin-top: 5px;
+}

@@ -21,6 +21,7 @@ class Attendance extends Model
         'date',       // 勤務日
         'start_time', // 出勤時刻
         'end_time',   // 退勤時刻
+        'note',       // 備考（任意で追加）
         'is_resting', // 休憩中フラグ（真偽値：規約のis+形容詞）
     ];
 
@@ -105,4 +106,15 @@ class Attendance extends Model
         return sprintf('%d:%02d', $hours, $minutes);
     }
 
+    public function isPending()
+    {
+    // この勤怠に紐づく修正申請のうち、statusが0（承認待ち）のものが存在するか
+    return $this->correctionRequests()->where('status', 0)->exists();
+    }
+
+    // AttendanceCorrectRequestモデルとのリレーション
+    public function correctionRequests()
+    {
+        return $this->hasMany(AttendanceCorrectRequest::class);
+    }
 }

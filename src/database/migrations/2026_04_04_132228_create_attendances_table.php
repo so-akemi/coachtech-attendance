@@ -19,6 +19,7 @@ class CreateAttendancesTable extends Migration
             $table->date('date'); // 勤務日
             $table->time('start_time')->nullable(); // 出勤時刻
             $table->time('end_time')->nullable();   // 退勤時刻
+            $table->text('note')->nullable();       // 備考（任意）
             $table->boolean('is_resting')->default(false); // 休憩中
             $table->unique(['user_id', 'date']);// 同じユーザーが同じ日に2回出勤レコードを作らないための制約（任意）
             $table->timestamps();
