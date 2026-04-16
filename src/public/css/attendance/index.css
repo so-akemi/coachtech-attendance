@@ -27,6 +27,17 @@
     margin: 0 auto 20px;
 }
 
+.month-nav-link {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.month-nav-link:hover {
+    opacity: 0.7;
+}
+
 .attendance-table {
     width: 100%;
     max-width: 800px;
@@ -53,6 +64,10 @@
     text-decoration: none;
     color: #000;
     font-weight: bold;
+}
+
+.detail-btn:hover {
+    opacity: 0.7;
 }
 
 .calendar-icon {

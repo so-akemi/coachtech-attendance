@@ -21,8 +21,11 @@
         </div>
 
         <div class="attendance-timer">
-            <p class="attendance-date">{{ now()->format('Y年m月d日(D)') }}</p>
-            <p class="attendance-time">{{ now()->format('H:i') }}</p>
+            <!--<p class="attendance-date">{{ now()->format('Y年m月d日(D)') }}</p>
+                <p class="attendance-time">{{ now()->format('H:i') }}</p> -->
+            <div id="date" class="attendance-date"></div>
+            <div id="time" class="attendance-time"></div>
+
         </div>
 
         <div class="attendance-actions">
@@ -58,4 +61,35 @@
             @endif
         </div>
     </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+
+            // --- 上段：日付の処理 ---
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;
+            const date = now.getDate();
+            const dayList = ["日", "月", "火", "水", "木", "金", "土"];
+            const day = dayList[now.getDay()]; // 曜日を日本語に変換
+
+            const dateString = `${year}年${month}月${date}日（${day}）`;
+
+            // --- 下段：時刻の処理 ---
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+
+            const timeString = `${hours}:${minutes}`;
+
+            // HTMLに反映
+            document.getElementById('date').textContent = dateString;
+            document.getElementById('time').textContent = timeString;
+        }
+
+        // 1秒（1000ミリ秒）ごとに実行
+        setInterval(updateClock, 1000);
+
+        // ページ読み込み時にも即座に表示
+        updateClock();
+    </script>
 @endsection

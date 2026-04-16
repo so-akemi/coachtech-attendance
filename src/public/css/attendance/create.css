@@ -1,0 +1,63 @@
+/* 1. 画面全体の背景色と中央寄せ */
+body {
+    background-color: #f2f2f4;
+}
+
+/* 2. コンテンツ全体のレイアウト */
+.attendance-content {
+    text-align: center;
+    margin-top: 260px;
+}
+
+/* 3. 「勤務外」などのステータスバッジ */
+.status-badge {
+    display: inline-block;
+    background-color: #d1d1d1;
+    /* バッジのグレー */
+    color: #666;
+    padding: 4px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* 4. 日付と時刻 */
+.attendance-date {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.attendance-time {
+    font-size: 80px;
+    /* 大きな時刻 */
+    font-weight: 900;
+    margin: 10px 0 40px 0;
+    letter-spacing: -2px;
+}
+
+/* 5. 出勤ボタン（黒い丸角ボタン） */
+.btn-main {
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    padding: 15px 60px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 15px;
+    /* 角丸 */
+    cursor: pointer;
+    transition: opacity 0.2s;
+    width: 200px;
+    /* ボタンの幅を固定 */
+}
+
+.btn-main:hover {
+    opacity: 0.8;
+}
+
+/* その他ボタンが必要な場合の微調整 */
+.attendance-actions form {
+    margin-bottom: 10px;
+}

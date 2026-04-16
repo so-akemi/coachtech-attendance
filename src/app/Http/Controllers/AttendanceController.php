@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Attendance;
 use Carbon\Carbon;
 use App\Models\Rest;
+use App\Models\AttendanceCorrectRequest;
 
 class AttendanceController extends Controller
 {
@@ -214,23 +215,24 @@ class AttendanceController extends Controller
 
         // 2. 勤怠本体の更新
         // ※ old() で返ってきた値や $request の値で更新します
-        $attendance->update([
-            'start_time' => $request->start_time,
-            'end_time'   => $request->end_time,
-            'note'       => $request->note,
+        \App\Models\AttendanceCorrectRequest::create([
+            'attendance_id' => $attendance->id,
+            'user_id'       => Auth::id(),
+            'start_time'    => $request->start_time ? $date . ' ' . $request->start_time : $attendance->start_time,
+            'end_time'      => $request->end_time ? $date . ' ' . $request->end_time : $attendance->end_time,
+            //'note'          => $request->note,
+            'reason'        => $request->note, // Bladeのname属性はnoteですが、DBのカラム名はreasonなので注意
+            'status'        => 0, // 0:承認待ち
         ]);
 
         // 3. 休憩データの更新
+        // ★重要：Rest::update ではなく、作成した $correctRequest に紐づけて保存する
         if ($request->has('rests')) {
             foreach ($request->rests as $restData) {
-                // 修正対象の休憩レコードをIDで特定
-                $rest = Rest::where('attendance_id', $attendance->id)
-                            ->find($restData['id']);
-
-                if ($rest) {
-                    $rest->update([
-                        'start_time' => $restData['start_time']? $date . ' ' . $restData['start_time'] : null,
-                        'end_time'   => $restData['end_time']? $date . ' ' . $restData['end_time'] : null,
+                if (!empty($restData['start_time']) && !empty($restData['end_time'])) {
+                    $correctRequest->restCorrectRequests()->create([
+                        'start_time' => $date . ' ' . $restData['start_time'],
+                        'end_time'   => $date . ' ' . $restData['end_time'],
                     ]);
                 }
             }

@@ -22,12 +22,14 @@
             <tr>
                 <th>日付</th>
                 <td>
-                    <span class="date-year">
-                        {{ Carbon\Carbon::parse($attendance->date)->format('Y年') }}
-                    </span>
-                    <span class="date-month-day">
-                        {{ Carbon\Carbon::parse($attendance->date)->isoFormat('MM月DD日') }}
-                    </span>
+                    <div class="date-container">
+                        <span class="date-year">
+                            {{ Carbon\Carbon::parse($attendance->date)->format('Y年') }}
+                        </span>
+                        <span class="date-month-day">
+                            {{ Carbon\Carbon::parse($attendance->date)->isoFormat('MM月DD日') }}
+                        </span>
+                    </div>
 
                     <!-- もし、サーバー側に日付データを送る必要がある場合は、hiddenで持たせておく -->
                     @if ($isEditMode)
@@ -126,19 +128,21 @@
             @if ($isEditMode)
                 <button type="submit" class="submit-button">修正</button>
             @else
-                <a href="{{ route('attendance.show', ['id' => $attendance->id, 'mode' => 'edit']) }}"
-                    class="edit-link">修正</a>
+                @if (!$attendance->isPending())
+                    <a href="{{ route('attendance.show', ['id' => $attendance->id, 'mode' => 'edit']) }}"
+                        class="edit-link">修正</a>
+                @endif
             @endif
         </div>
+
+        @if ($isEditMode)
+            </form>
+        @endif
 
         @if ($attendance->isPending())
             <p class="pending-message">
                 *承認待ちのため修正はできません。
             </p>
-        @endif
-
-        @if ($isEditMode)
-            </form>
         @endif
     </div>
 @endsection

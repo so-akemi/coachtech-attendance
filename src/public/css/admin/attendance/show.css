@@ -1,0 +1,138 @@
+/* public/css/admin/attendance/show.css */
+/* 全体のコンテナ */
+body {
+    background-color: #f5f5f5;
+}
+
+.attendance-detail {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    /* 背景は薄いグレー */
+}
+
+/* タイトル：左側の黒い棒がアクセント */
+.attendance-detail-title {
+    font-size: 24px;
+    font-weight: bold;
+    border-left: 8px solid #000;
+    padding-left: 15px;
+    margin-bottom: 30px;
+}
+
+/* テーブルを囲むカード */
+.detail-table {
+    width: 100%;
+    background-color: #fff;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* 各行の設定 */
+.detail-table tr {
+    border-bottom: 1px solid #eee;
+}
+
+.detail-table tr:last-child {
+    border-bottom: none;
+}
+
+/* ラベル列（名前、日付など） */
+.detail-table th {
+    width: 25%;
+    padding: 25px 40px;
+    text-align: left;
+    color: #666;
+    font-size: 14px;
+}
+
+/* データ表示・入力列 */
+.detail-table td {
+    padding: 25px 40px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* 時間入力フォームのデザイン */
+input[type="time"] {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 16px;
+    font-family: 'Courier New', Courier, monospace;
+    /* デジタル時計っぽく */
+    background-color: #fff;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+/* 備考のテキストエリア */
+textarea {
+    width: 100%;
+    min-height: 100px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    resize: vertical;
+}
+
+/* 下部のアクションエリア（右寄せ） */
+.detail-action {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+    /* 右寄せ */
+}
+
+/* 修正ボタン（黒背景、白文字） */
+.submit-button,
+.edit-link {
+    background-color: #000;
+    color: #fff;
+    padding: 12px 60px;
+    /* 横幅を広めに */
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.submit-button:hover,
+.edit-link:hover {
+    opacity: 0.8;
+}
+
+/* 承認待ちメッセージ（ボタンと同じエリアに出る場合） */
+.status-alert-box {
+    color: #ff4d4b;
+    font-weight: bold;
+    padding: 12px;
+}
+
+/* 承認ボタン（黒） */
+.approve-submit-button {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 30px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* 承認済みボタン（グレー） */
+.approved-button {
+    background-color: #ccc;
+    color: #fff;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 4px;
+    cursor: not-allowed;
+}

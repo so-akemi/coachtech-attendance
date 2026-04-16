@@ -1,57 +1,127 @@
-.attendance-detail {
-    max-width: 600px;
-    margin: 50px auto;
-    background: #fff;
-    padding: 30px;
-    border-radius: 8px;
+/* 全体の背景 */
+body {
+    background-color: #f2f2f4;
+    margin: 0;
 }
 
+.attendance-detail {
+    max-width: 850px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* 「勤怠詳細」の横の黒い棒 */
+.attendance-detail-title {
+    font-size: 26px;
+    font-weight: bold;
+    padding-left: 15px;
+    border-left: 8px solid #000;
+    /* 黒い縦棒 */
+    margin-bottom: 40px;
+}
+
+/* テーブルを白いカード風にする */
 .detail-table {
     width: 100%;
     border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    /* 角を丸く */
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    /* 軽い影で浮き立たせる */
+    border: none;
+    /* 外枠を消す */
+}
+
+.detail-table th,
+.detail-table td {
+    padding: 25px 40px;
+    /* 余白をたっぷり取る */
+    border-bottom: 1px solid #eee;
+    /* 下線だけにする */
+}
+
+/* 最後の行の下線を消す */
+.detail-table tr:last-child th,
+.detail-table tr:last-child td {
+    border-bottom: none;
 }
 
 .detail-table th {
-    text-align: left;
+    background-color: #fff;
     width: 30%;
-    padding: 20px 10px;
-    border-bottom: 1px solid #eee;
-    color: #555;
+    color: #888;
+    font-weight: 500;
+    text-align: left;
 }
 
+/* 右側の入力・表示内容 */
 .detail-table td {
-    padding: 20px 10px;
-    border-bottom: 1px solid #eee;
+    width: 70%;
+    font-weight: bold;
+    /* 値は太字にしてインパクトを出す */
+    font-size: 18px;
+    letter-spacing: 0.05em;
+    text-align: left;
 }
 
-/* Chrome, Edge, Safari などの時計アイコンを非表示にする */
-.start-time::-webkit-calendar-picker-indicator,
-.end-time::-webkit-calendar-picker-indicator {
+.date-container {
+    display: flex;
+    justify-content: space-around;
+    /* 左右に程よく散らす */
+    width: 50%;
+    text-align: left;
+}
+
+/* 入力フォームの装飾 */
+.detail-table input[type="time"],
+.detail-table textarea {
+    border: 1px solid #ccc;
+    background-color: #fafafa;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
     display: none;
 }
 
-/* もしブラウザによって余白が気になる場合は、これも追加 */
-.start-time,
-.end-time {
-    appearance: none;
-    /* 標準の見た目をリセット */
-    -moz-appearance: textfield;
-    /* Firefox用 */
+/* 〜（波線）の左右に余白 */
+.detail-table td {
+    color: #333;
 }
 
-.pending-message {
-    color: #ff4d4d;
-    /* 画像に近い赤色 */
+/* 修正ボタン（右寄せ・黒） */
+.detail-action {
     text-align: right;
-    /* 右寄せ */
+    margin-top: 30px;
+}
+
+.submit-button,
+.edit-link {
+    display: inline-block;
+    background-color: #000;
+    color: #fff;
+    padding: 12px 35px;
+    border-radius: 6px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.edit-link:hover {
+    background-color: #333;
+}
+
+/* 承認待ちメッセージ（赤・右寄せ） */
+.pending-message {
+    color: #ff4d4f;
+    text-align: right;
     font-size: 14px;
     margin-top: 15px;
-    /* ボタンとの間隔 */
-}
-
-.error-message {
-    color: #ff0000;
-    /* 赤色 */
-    font-size: 14px;
-    margin-top: 5px;
 }

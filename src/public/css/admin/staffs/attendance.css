@@ -1,0 +1,93 @@
+/* 全体のコンテナ */
+.attendance-content {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* スタッフ名見出し（左側の黒い棒が特徴） */
+.staff-name {
+    font-size: 24px;
+    font-weight: bold;
+    border-left: 8px solid #000;
+    padding-left: 15px;
+    margin-bottom: 30px;
+    line-height: 1.2;
+}
+
+/* 月選択ナビゲーション */
+.attendance-month-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 30px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.month-nav-link {
+    color: #8b8b8b;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.month-nav-current {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.calendar-icon {
+    font-size: 24px;
+    color: #555;
+}
+
+/* 勤怠テーブル */
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    /* 角丸を適用するため */
+}
+
+.attendance-table th {
+    padding: 15px;
+    color: #a0a0a0;
+    font-weight: normal;
+    font-size: 14px;
+    border-bottom: 1px solid #f0f0f0;
+    text-align: center;
+}
+
+.attendance-table td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #f0f0f0;
+    color: #333;
+    font-size: 15px;
+}
+
+/* リンクボタンのスタイル */
+.detail-btn {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.detail-btn:hover {
+    text-decoration: underline;
+}
+
+/* レスポンシブ対応（お好みで） */
+@media (max-width: 768px) {
+    .attendance-month-nav {
+        gap: 20px;
+    }
+}

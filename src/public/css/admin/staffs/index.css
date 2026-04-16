@@ -1,0 +1,48 @@
+
+/* admin/staff/index.css */
+
+.staff-list {
+    max-width: 900px;
+    margin: 40px auto;
+}
+
+.staff-list-title {
+    font-size: 24px;
+    border-left: 8px solid #000;
+    padding-left: 15px;
+    margin-bottom: 30px;
+}
+
+.staff-table {
+    width: 100%;
+    background: #fff;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.staff-table th {
+    padding: 20px;
+    color: #888;
+    font-weight: normal;
+    font-size: 14px;
+    border-bottom: 1px solid #eee;
+}
+
+.staff-table td {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    font-weight: bold;
+}
+
+/* 「詳細」リンク */
+.detail-link {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.detail-link:hover {
+    text-decoration: underline;
+}

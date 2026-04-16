@@ -14,26 +14,39 @@ class RequestController extends Controller
 {
     public function index(Request $request)
     {
+        //dd([
+        //    'Gate判定' => Gate::allows('admin'),
+        //    'ログインユーザーID' => auth()->id(),
+        //    'is_adminカラムの値' => auth()->user()->is_admin
+        //]);
         // 1. タブの状態（承認待ち or 承認済み）を取得
         $statusParam = $request->query('status', 'pending');
         $statusValue = ($statusParam === 'approved') ? 1 : 0;
 
-        // 2. 基本のクエリを作成（名前を表示するために user リレーションを Eager Load）
-        $query = AttendanceCorrectRequest::with('user')->where('status', $statusValue);
+        // 2. クエリビルダのベースを作る（まだ実行しない）
+        $query = AttendanceCorrectRequest::with('user')
+            ->where('user_id', auth()->id()) // ログイン中のユーザーIDで固定
+            ->where('status', $statusValue);
 
         // 3. 管理者かどうかで取得するデータを分ける
-        if (Gate::allows('admin')) {
+        //●if (Gate::allows('admin')) {
             // 管理者は全ユーザーの申請を取得
-            $requests = $query->orderBy('created_at', 'desc')->get();
-            return view('admin.requests.index', compact('requests', 'statusParam'));
-        }
-
+            //●$requests = $query->where('status', $statusValue)->latest()->get();
+        //●} else {
         // 一般ユーザーは自分の申請だけを取得
-        $requests = $query->where('user_id', Auth::id())
-                          ->orderBy('created_at', 'desc')
+        $requests = $query//->where('user_id', Auth::id())
+                          ->latest()
                           ->get();
+        //●$requests = $query->where('status', $statusValue)
+                          //●->where('user_id', auth()->id())
+                          //●->latest()
+                          //●->get();
+        //●}
+
+        //dd($requests->count() . '件のデータが見つかりました', $requests->toArray());
 
         return view('requests.index', compact('requests', 'statusParam'));
+
     }
 
     public function store(CorrectionRequest $request, $id)

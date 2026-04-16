@@ -35,12 +35,20 @@
                         <td>{{ $request->reason }}</td>
                         <td>{{ $request->created_at->format('Y/m/d') }}</td>
                         <td>
-                            <!-- ここで詳細画面（PG04）へ飛びます -->
-                            <a href="{{ route('attendance.show', $request->attendance_id) }}" class="detail-link">詳細</a>
+                            <!--
+                                ここで条件分岐！
+                                管理者なら「承認画面」、一般なら「勤怠詳細画面」へ飛ばす
+                            -->
+                            @can('admin')
+                                <a href="{{ route('admin.request.approve', $request->id) }}" class="detail-link">詳細</a>
+                            @else
+                                <a href="{{ route('attendance.show', $request->attendance_id) }}" class="detail-link">詳細</a>
+                            @endcan
                         </td>
                     </tr>
                 @empty
                     <tr>
+                        <!-- 名前列が増えたので colspan を 6 にしておきます -->
                         <td colspan="6" style="text-align: center;">申請はありません。</td>
                     </tr>
                 @endforelse

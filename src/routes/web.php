@@ -6,6 +6,8 @@ use App\Http\Controllers\StaffController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\Admin\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
+use App\Http\Controllers\Admin\RequestController as AdminRequestController;
+use App\Http\Controllers\Admin\StaffController as AdminStaffController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,8 +54,32 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // PG06 & PG12: 申請一覧（共通パス）
     // ※コントローラー内で Gate::allows('admin') を使って取得データやViewを分岐させる
-    Route::get('/stamp_correction_request/list', [RequestController::class, 'index'])->name('request.index');
+    //Route::get('/stamp_correction_request/list', function () {
+    //dd('web.phpに到達');
+    //});
+    Route::get('/stamp_correction_request/list', function (Illuminate\Http\Request $request) {
+    if (auth()->user()->is_admin) {
+        return app(\App\Http\Controllers\Admin\RequestController::class)->index($request);
+    }
 
+    return app(\App\Http\Controllers\RequestController::class)->index($request);
+    })->middleware(['auth', 'verified'])->name('request.index');
+
+    //あれやったら消すRoute::get('/stamp_correction_request/list', //function (Illuminate\Http\Request $request) {
+    // 管理者かどうかの判定（$user->is_admin のカラム名に合わせる）
+    //$controller = Gate::allows('admin')
+        //? \App\Http\Controllers\Admin\RequestController::class
+        //: \App\Http\Controllers\RequestController::class;
+        // callAction を使うことで、Laravelの正規のプロセスで実行されます
+    //return app($controller)->callAction('index', [$request]);
+    //})->middleware(['auth', 'verified'])->name('request.index');
+
+    //●ゲートで動いたやつ：Route::get('/stamp_correction_request/list', [App\Http\Controllers\RequestController::class, 'index'])
+    //->middleware(['auth', 'verified'])
+    //->name('request.index');
+
+
+    //Route::get('/stamp_correction_request/list', [AdminRequestController::class, 'index'])->name('request.index');
 
     // --- 管理者専用 (PG08 - PG11, PG13) ---
     // 先ほど作った 'admin' ミドルウェアでガード
@@ -62,12 +88,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // PG08, PG09: 勤怠管理
         Route::get('/attendance/list', [AdminAttendanceController::class, 'index'])->name('attendance.index');
         Route::get('/attendance/{id}', [AdminAttendanceController::class, 'show'])->name('attendance.show');
+        Route::patch('/attendance/{id}', [AdminAttendanceController::class, 'update'])->name('attendance.update');
 
         // PG10, PG11: スタッフ管理
-        Route::get('/staff/list', [StaffController::class, 'index'])->name('staff.index');
-        Route::get('/attendance/staff/{id}', [StaffController::class, 'attendance'])->name('staff.attendance');
+        Route::get('/staff/list', [AdminStaffController::class, 'index'])->name('staff.index');
+        Route::get('/attendance/staff/{id}', [AdminStaffController::class, 'staffAttendance'])->name('attendance.staff');
 
         // PG13: 承認画面
-        Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}', [RequestController::class, 'approveForm'])->name('request.approve');
+        Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}', [AdminRequestController::class, 'showApprove'])->name('request.approve');
+        Route::post('/stamp_correction_request/approve/{attendance_correct_request_id}', [AdminRequestController::class, 'approve'])->name('request.approve.post');
     });
 });

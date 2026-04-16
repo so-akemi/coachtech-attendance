@@ -25,6 +25,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        // これが定義されていないと allows('admin') は常に false になります
+        Gate::define('admin', function ($user) {
+            return (bool)$user->is_admin === true;
+        });
     }
 }
