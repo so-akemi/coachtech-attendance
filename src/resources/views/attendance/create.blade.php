@@ -22,7 +22,7 @@
 
         <div class="attendance-timer">
             <!--<p class="attendance-date">{{ now()->format('Y年m月d日(D)') }}</p>
-                <p class="attendance-time">{{ now()->format('H:i') }}</p> -->
+                    <p class="attendance-time">{{ now()->format('H:i') }}</p> -->
             <div id="date" class="attendance-date"></div>
             <div id="time" class="attendance-time"></div>
 
@@ -40,11 +40,11 @@
                 <form action="{{ route('attendance.update') }}" method="POST">
                     @csrf
                     @method('PATCH')
-                    <button type="submit" class="btn-black">退勤</button>
+                    <button type="submit" class="btn-clock-out">退勤</button>
                 </form>
                 <form action="{{ route('attendance.rest.store') }}" method="POST">
                     @csrf
-                    <button type="submit" class="btn-white">休憩入</button>
+                    <button type="submit" class="btn-break-start">休憩入</button>
                 </form>
             @endif
 
@@ -52,7 +52,7 @@
                 <form action="{{ route('attendance.rest.update') }}" method="POST">
                     @csrf
                     @method('PATCH')
-                    <button type="submit" class="btn-white">休憩戻</button>
+                    <button type="submit" class="btn-break-end">休憩戻</button>
                 </form>
             @endif
 
@@ -73,7 +73,7 @@
             const dayList = ["日", "月", "火", "水", "木", "金", "土"];
             const day = dayList[now.getDay()]; // 曜日を日本語に変換
 
-            const dateString = `${year}年${month}月${date}日（${day}）`;
+            const dateString = `${year}年${month}月${date}日(${day})`;
 
             // --- 下段：時刻の処理 ---
             const hours = String(now.getHours()).padStart(2, '0');

@@ -15,7 +15,7 @@
             </tr>
             <tr>
                 <th>日付</th>
-                <td>
+                <td class="date-cell">
                     <span class="date-year">{{ \Carbon\Carbon::parse($correctRequest->date)->format('Y年') }}</span>
                     <span class="date-month-day">{{ \Carbon\Carbon::parse($correctRequest->date)->isoFormat('M月D日') }}</span>
                 </td>
@@ -25,7 +25,7 @@
                 <td>
                     <!-- 申請された修正後の時間を表示 -->
                     {{ \Carbon\Carbon::parse($correctRequest->start_time)->format('H:i') }}
-                    ～
+                    <span class="time-separator">～</span>
                     {{ \Carbon\Carbon::parse($correctRequest->end_time)->format('H:i') }}
                 </td>
             </tr>
@@ -36,7 +36,7 @@
                     <th>休憩{{ $index === 0 ? '' : $index + 1 }}</th>
                     <td>
                         {{ \Carbon\Carbon::parse($restRequest->start_time)->format('H:i') }}
-                        ～
+                        <span class="time-separator">～</span>
                         {{ $restRequest->end_time ? \Carbon\Carbon::parse($restRequest->end_time)->format('H:i') : '--:--' }}
                     </td>
                 </tr>
@@ -52,7 +52,7 @@
         </table>
 
         <div class="detail-action">
-            @if($correctRequest->status == 0)
+            @if ($correctRequest->status == 0)
                 <!-- 承認待ち(0)の場合：承認ボタンを表示 (POST送信) -->
                 <form action="{{ route('admin.request.approve.post', $correctRequest->id) }}" method="POST">
                     @csrf

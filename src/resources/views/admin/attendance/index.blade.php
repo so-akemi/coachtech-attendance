@@ -7,17 +7,24 @@
 @section('content')
     <div class="attendance-list">
         <!-- 設計書に合わせ「2023年6月1日の勤怠」のようなタイトルにするなら -->
-        <h1 class="attendance-list-title">{{ $currentDate->format('Y年m月d日') }}の勤怠</h1>
+        <h1 class="attendance-list-title">{{ $currentDate->format('Y年n月j日') }}の勤怠</h1>
 
         <div class="attendance-day-nav">
             <!-- route名は管理者用に設定したものに変更してください -->
-            <a href="{{ route('admin.attendance.index', ['date' => $prevDate]) }}" class="day-nav-link">← 前日</a>
+            <a href="{{ route('admin.attendance.index', ['date' => $prevDate]) }}" class="day-nav-link">
+                <img class="day-nav-img-left" src="{{ asset('img/arrow-left.png') }}" alt="前日">
+                前日
+            </a>
             <span class="day-nav-current">
                 <span class="calendar-icon material-symbols-outlined">calendar_month</span>
                 {{ $currentDate->format('Y/m/d') }}
             </span>
-            <a href="{{ route('admin.attendance.index', ['date' => $nextDate]) }}" class="day-nav-link">翌日 →</a>
+            <a href="{{ route('admin.attendance.index', ['date' => $nextDate]) }}" class="day-nav-link">
+                翌日
+                <img class="day-nav-img-right" src="{{ asset('img/arrow-right.png') }}" alt="翌日">
+            </a>
         </div>
+
 
         <table class="attendance-table">
             <thead>
@@ -36,8 +43,10 @@
                         <!-- 1列目はユーザー名を表示 -->
                         <td>{{ $attendance->user->name }}</td>
 
-                        <td>{{ $attendance->start_time ? Carbon\Carbon::parse($attendance->start_time)->format('H:i') : '' }}</td>
-                        <td>{{ $attendance->end_time ? Carbon\Carbon::parse($attendance->end_time)->format('H:i') : '' }}</td>
+                        <td>{{ $attendance->start_time ? Carbon\Carbon::parse($attendance->start_time)->format('H:i') : '' }}
+                        </td>
+                        <td>{{ $attendance->end_time ? Carbon\Carbon::parse($attendance->end_time)->format('H:i') : '' }}
+                        </td>
 
                         <td>{{ $attendance->getTotalRestTime() }}</td>
                         <td>{{ $attendance->getWorkingTime() }}</td>

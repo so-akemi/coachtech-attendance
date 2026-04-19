@@ -21,6 +21,7 @@ class CreateAttendancesTable extends Migration
             $table->time('end_time')->nullable();   // 退勤時刻
             $table->text('note')->nullable();       // 備考（任意）
             $table->boolean('is_resting')->default(false); // 休憩中
+            $table->integer('status')->default(0)->comment('0:勤務外, 1:出勤中, 2:休憩中, 3:退勤済');
             $table->unique(['user_id', 'date']);// 同じユーザーが同じ日に2回出勤レコードを作らないための制約（任意）
             $table->timestamps();
         });

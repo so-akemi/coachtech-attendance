@@ -1,14 +1,15 @@
 /* public/css/admin/attendance/show.css */
 /* 全体のコンテナ */
 body {
-    background-color: #f5f5f5;
+    background-color: #E1E1E1;
+    font-family: 'Inter', sans-serif;
 }
 
 .attendance-detail {
     max-width: 800px;
     margin: 40px auto;
     padding: 20px;
-    background-color: #f5f5f5;
+    background-color: #E1E1E1;
     /* 背景は薄いグレー */
 }
 
@@ -33,7 +34,7 @@ body {
 
 /* 各行の設定 */
 .detail-table tr {
-    border-bottom: 1px solid #eee;
+    border-bottom: 2px solid #E1E1E1;
 }
 
 .detail-table tr:last-child {
@@ -47,6 +48,7 @@ body {
     text-align: left;
     color: #666;
     font-size: 14px;
+    white-space: nowrap;
 }
 
 /* データ表示・入力列 */
@@ -54,6 +56,29 @@ body {
     padding: 25px 40px;
     font-size: 16px;
     font-weight: bold;
+    display:flex;
+    align-items: center;
+    gap: 30px
+}
+
+.detail-table td.date-cell {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    /* gapではなく、中の要素の幅で間隔を制御します */
+}
+
+.date-year {
+    display: inline-block;
+    width: 200px;
+    /* 出退勤の開始時間と同じくらいの位置になるよう調整 */
+}
+
+.time-separator {
+    display: inline-block;
+    width: 100px;
+    /* 年の幅との兼ね合いで調整 */
+    text-align: center;
 }
 
 /* 時間入力フォームのデザイン */
@@ -94,15 +119,16 @@ textarea {
 .edit-link {
     background-color: #000;
     color: #fff;
-    padding: 12px 60px;
-    /* 横幅を広めに */
+    padding: 10px;
+    text-align: center;
     border: none;
     border-radius: 4px;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
-    cursor: pointer;
     transition: opacity 0.3s;
+    width: 130px;
+    height: 50px;
 }
 
 .submit-button:hover,
@@ -112,9 +138,10 @@ textarea {
 
 /* 承認待ちメッセージ（ボタンと同じエリアに出る場合） */
 .status-alert-box {
-    color: #ff4d4b;
-    font-weight: bold;
-    padding: 12px;
+    color: #FF000080;
+    text-align: right;
+    font-size: 18px;
+    margin-top: 15px;
 }
 
 /* 承認ボタン（黒） */
@@ -125,14 +152,27 @@ textarea {
     border: none;
     cursor: pointer;
     border-radius: 4px;
+    font-size: 16px;
+    width: 130px;
+    height: 50px;
+    font-weight: bold;
 }
 
 /* 承認済みボタン（グレー） */
 .approved-button {
-    background-color: #ccc;
+    background-color: #6d6d6d;
     color: #fff;
     padding: 10px 30px;
     border: none;
     border-radius: 4px;
-    cursor: not-allowed;
+    font-size: 16px;
+    width: 130px;
+    height: 50px;
+    font-weight: bold;
+}
+
+.error-message {
+    color: #ff4d4b;
+    font-weight: bold;
+    padding: 12px;
 }

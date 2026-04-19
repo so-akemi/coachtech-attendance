@@ -22,7 +22,7 @@
             </tr>
             <tr>
                 <th>日付</th>
-                <td>
+                <td class="date-cell">
                     <span class="date-year">{{ \Carbon\Carbon::parse($attendance->date)->format('Y年') }}</span>
                     <span class="date-month-day">{{ \Carbon\Carbon::parse($attendance->date)->isoFormat('M月DD日') }}</span>
                 </td>
@@ -34,19 +34,23 @@
                     @if ($isEditMode && !$attendance->isPending())
                         <input type="time" name="start_time" class="start-time"
                             value="{{ old('start_time', \Carbon\Carbon::parse($attendance->start_time)->format('H:i')) }}">
-                        ～
+                        <span class="time-separator">～</span>
                         <input type="time" name="end_time" class="end-time"
                             value="{{ old('end_time', $attendance->end_time ? \Carbon\Carbon::parse($attendance->end_time)->format('H:i') : '') }}">
 
                         <!-- FN039: バリデーションエラー表示 -->
                         <div class="error-message">
-                            @error('start_time') {{ $message }} @enderror
-                            @error('end_time') {{ $message }} @enderror
+                            @error('start_time')
+                                {{ $message }}
+                            @enderror
+                            @error('end_time')
+                                {{ $message }}
+                            @enderror
                         </div>
                     @else
                         <!-- 表示モード、または承認待ちの場合 -->
                         {{ $attendance->start_time ? \Carbon\Carbon::parse($attendance->start_time)->format('H:i') : '--:--' }}
-                        ～
+                        <span class="time-separator">～</span>
                         {{ $attendance->end_time ? \Carbon\Carbon::parse($attendance->end_time)->format('H:i') : '--:--' }}
                     @endif
                 </td>
@@ -61,7 +65,7 @@
                             <input type="hidden" name="rests[{{ $index }}][id]" value="{{ $rest->id }}">
                             <input class="start-time" type="time" name="rests[{{ $index }}][start_time]"
                                 value="{{ old('rests.' . $index . '.start_time', \Carbon\Carbon::parse($rest->start_time)->format('H:i')) }}">
-                            ～
+                            <span class="time-separator">～</span>
                             <input class="end-time" type="time" name="rests[{{ $index }}][end_time]"
                                 value="{{ old('rests.' . $index . '.end_time', $rest->end_time ? \Carbon\Carbon::parse($rest->end_time)->format('H:i') : '') }}">
 
@@ -72,7 +76,7 @@
                             @endif
                         @else
                             {{ \Carbon\Carbon::parse($rest->start_time)->format('H:i') }}
-                            ～
+                            <span class="time-separator">～</span>
                             {{ $rest->end_time ? \Carbon\Carbon::parse($rest->end_time)->format('H:i') : '--:--' }}
                         @endif
                     </td>
@@ -84,14 +88,14 @@
                     <th>休憩（追加）</th>
                     <td>
                         <input class="start-time" type="time" name="new_rests[0][start_time]"
-                               value="{{ old('new_rests.0.start_time') }}">
-                        ～
+                            value="{{ old('new_rests.0.start_time') }}">
+                        <span class="time-separator">～</span>
                         <input class="end-time" type="time" name="new_rests[0][end_time]"
-                               value="{{ old('new_rests.0.end_time') }}">
+                            value="{{ old('new_rests.0.end_time') }}">
 
-                        @if ($errors->has("new_rests.0.start_time") || $errors->has("new_rests.0.end_time"))
+                        @if ($errors->has('new_rests.0.start_time') || $errors->has('new_rests.0.end_time'))
                             <div class="error-message">
-                                {{ $errors->first("new_rests.0.start_time") ?: $errors->first("new_rests.0.end_time") }}
+                                {{ $errors->first('new_rests.0.start_time') ?: $errors->first('new_rests.0.end_time') }}
                             </div>
                         @endif
                     </td>
@@ -116,7 +120,7 @@
         <div class="detail-action">
             @if ($attendance->isPending())
                 <!-- FN038: 承認待ちの時はボタンの場所にメッセージを表示 -->
-                <p class="status-alert-box">承認待ちのため修正はできません。</p>
+                <p class="status-alert-box">*承認待ちのため修正はできません。</p>
             @elseif ($isEditMode)
                 <!-- 修正モード（承認待ち以外） -->
                 <button type="submit" class="submit-button">修正</button>

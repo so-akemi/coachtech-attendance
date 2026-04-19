@@ -8,7 +8,7 @@
     <div class="login-content">
         @include('components.login-form', [
             'title' => 'ログイン',
-            'action' => '/login',
+            'action' => route('login'),
             'buttonText' => 'ログインする',
             'showRegister' => true,
         ])

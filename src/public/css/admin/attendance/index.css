@@ -1,8 +1,16 @@
 /* 全体コンテナ */
+body {
+    background-color: #E1E1E1;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+}
+
 .attendance-list {
-    background-color: #f5f5f5;
+    background-color: #E1E1E1;
     /* 背景グレー */
-    padding: 40px 20px;
+    margin: 40px auto;
+    padding: 0 20px;
     min-height: 100vh;
 }
 
@@ -10,10 +18,10 @@
 .attendance-list-title {
     font-size: 24px;
     font-weight: bold;
-    border-left: 5px solid #000;
+    border-left: 8px solid #000;
     padding-left: 15px;
     margin-bottom: 30px;
-    max-width: 1000px;
+    max-width: 900px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -26,15 +34,30 @@
     background: #fff;
     padding: 15px 30px;
     border-radius: 4px;
-    max-width: 1000px;
+    max-width: 900px;
     margin: 0 auto 30px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+.day-nav-img-left,
+.day-nav-img-right {
+    width: 16px;
+    height: auto;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.day-nav-img-right {
+    transform: rotate(180deg);
+}
+
 /* 「前日」「翌日」のリンク */
 .day-nav-link {
+    display: flex;
+    align-items: center;
     text-decoration: none;
-    color: #000;
+    color: #666666;
+    gap: 8px;
     font-weight: bold;
     font-size: 16px;
 }
@@ -50,6 +73,9 @@
     gap: 10px;
     font-size: 18px;
     font-weight: bold;
+    width: 100%;
+    max-width: 155px;
+    height: 25px;
 }
 
 .calendar-icon {
@@ -60,7 +86,8 @@
 /* 勤怠テーブル */
 .attendance-table {
     width: 100%;
-    max-width: 1000px;
+    max-width: 900px;
+    height: auto;
     margin: 0 auto;
     background: #fff;
     border-collapse: collapse;
@@ -73,20 +100,21 @@
 .attendance-table td {
     padding: 20px;
     text-align: center;
-    border-bottom: 1px solid #eee;
+    border-bottom: 2px solid #E1E1E1;
 }
 
 /* ヘッダーの文字色を薄くする */
 .attendance-table th {
     background-color: #fff;
-    color: #888;
-    font-weight: normal;
-    font-size: 14px;
+    color: #666666;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .attendance-table td {
     font-size: 16px;
-    color: #333;
+    color: #666666;
+    font-weight: bold;
 }
 
 /* 詳細ボタンのスタイル */
@@ -94,12 +122,12 @@
     text-decoration: none;
     color: #000;
     font-weight: bold;
-    border: 1px solid #ccc;
+    border: none;
     padding: 5px 15px;
     border-radius: 4px;
     transition: background 0.3s;
 }
 
 .detail-link:hover {
-    background-color: #f0f0f0;
+    opacity: 0.8;
 }

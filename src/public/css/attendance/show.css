@@ -1,7 +1,8 @@
 /* 全体の背景 */
 body {
-    background-color: #f2f2f4;
+    background-color: #E1E1E1;
     margin: 0;
+    font-family: 'Inter', sans-serif;
 }
 
 .attendance-detail {
@@ -25,13 +26,11 @@ body {
     width: 100%;
     border-collapse: collapse;
     background-color: #fff;
-    border-radius: 10px;
+    border-radius: 8px;
     /* 角を丸く */
     overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     /* 軽い影で浮き立たせる */
-    border: none;
-    /* 外枠を消す */
 }
 
 .detail-table th,
@@ -58,20 +57,32 @@ body {
 
 /* 右側の入力・表示内容 */
 .detail-table td {
-    width: 70%;
+    padding: 25px 40px;
+    font-size: 16px;
     font-weight: bold;
-    /* 値は太字にしてインパクトを出す */
-    font-size: 18px;
-    letter-spacing: 0.05em;
-    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 30px
 }
 
-.date-container {
+.detail-table td.date-container {
     display: flex;
-    justify-content: space-around;
-    /* 左右に程よく散らす */
-    width: 50%;
-    text-align: left;
+    align-items: center;
+    gap: 0;
+    /* gapではなく、中の要素の幅で間隔を制御します */
+}
+
+.date-year {
+    display: inline-block;
+    width: 200px;
+    /* 出退勤の開始時間と同じくらいの位置になるよう調整 */
+}
+
+.time-separator {
+    display: inline-block;
+    width: 100px;
+    /* 年の幅との兼ね合いで調整 */
+    text-align: center;
 }
 
 /* 入力フォームの装飾 */
@@ -83,11 +94,16 @@ body {
     border-radius: 4px;
     font-size: 16px;
     font-weight: bold;
-    text-align: center;
 }
 
 input[type="time"]::-webkit-calendar-picker-indicator {
     display: none;
+}
+
+textarea {
+    width: 100%;
+    min-height: 100px;
+    resize: vertical;
 }
 
 /* 〜（波線）の左右に余白 */
@@ -120,8 +136,15 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 /* 承認待ちメッセージ（赤・右寄せ） */
 .pending-message {
-    color: #ff4d4f;
+    color: #FF000080;
     text-align: right;
+    font-size: 18px;
+    margin-top: 15px;
+}
+
+.error-message {
+    color: #ff4d4f;
+    text-align: left;
     font-size: 14px;
     margin-top: 15px;
 }

@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\RequestController;
-use App\Http\Controllers\Admin\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\Admin\RequestController as AdminRequestController;
 use App\Http\Controllers\Admin\StaffController as AdminStaffController;
@@ -25,10 +24,6 @@ use App\Http\Controllers\Admin\StaffController as AdminStaffController;
 Route::get('/admin/login', function () {
     return view('admin.auth.login'); // 管理者専用のログイン画面を作成
 })->middleware(['guest'])->name('admin.login');
-
-// ログイン処理自体はFortifyのコントローラーを再利用できます
-Route::post('/admin/login', [AuthenticatedSessionController::class, 'store'])
-    ->middleware(['guest']);
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -84,6 +79,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // --- 管理者専用 (PG08 - PG11, PG13) ---
     // 先ほど作った 'admin' ミドルウェアでガード
     Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function () {
+        Route::post('/logout', [\Laravel\Fortify\Http\Controllers\AuthenticatedSessionController::class, 'destroy'])
+        ->name('logout');
+        Route::get('/attendance/staff/export/{id}', [AdminStaffController::class, 'exportCsv'])->name('attendance.staff.export');
 
         // PG08, PG09: 勤怠管理
         Route::get('/attendance/list', [AdminAttendanceController::class, 'index'])->name('attendance.index');

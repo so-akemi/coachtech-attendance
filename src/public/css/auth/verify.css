@@ -1,3 +1,7 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+
 .verify-email-container {
     display: flex;
     justify-content: center;

@@ -10,70 +10,67 @@
             <h1>会員登録</h1>
         </div>
 
-        <form class="form" method="POST" action="{{ route('register') }}" novalidate>
+        <!-- novalidateを外してテスト -->
+        <form class="form" method="POST" action="{{ route('register') }}">
             @csrf
 
+            <!-- 名前 -->
             <div class="form-group">
                 <div class="form-group-title">
                     <span class="form-label-item">名前</span>
                 </div>
                 <div class="form-group-content">
                     <div class="form-input-text">
-                        <input type="text" name="name" value="{{ old('name') }}" />
+                        <input type="text" name="name" value="{{ old('name') }}">
                     </div>
-                    <div class="error-massage">
-                        @error('name')
-                            {{ $message }}
-                        @enderror
-                    </div>
+                    @error('name')
+                        <div class="error-massage">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 
+            <!-- メール -->
             <div class="form-group">
                 <div class="form-group-title">
                     <span class="form-label-item">メールアドレス</span>
                 </div>
                 <div class="form-group-content">
                     <div class="form-input-text">
-                        <input type="email" name="email" value="{{ old('email') }}" />
+                        <input type="email" name="email" value="{{ old('email') }}">
                     </div>
-                    <div class="error-massage">
-                        @error('email')
-                            {{ $message }}
-                        @enderror
-                    </div>
+                    @error('email')
+                        <div class="error-massage">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 
+            <!-- パスワード -->
             <div class="form-group">
                 <div class="form-group-title">
                     <span class="form-label-item">パスワード</span>
                 </div>
                 <div class="form-group-content">
                     <div class="form-input-text">
-                        <input type="password" name="password" />
+                        <input type="password" name="password">
                     </div>
-                    <div class="error-massage">
-                        @error('password')
-                            {{ $message }}
-                        @enderror
-                    </div>
+                    @error('password')
+                        <div class="error-massage">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 
+            <!-- 確認用パスワード -->
             <div class="form-group">
                 <div class="form-group-title">
                     <span class="form-label-item">確認用パスワード</span>
                 </div>
                 <div class="form-group-content">
                     <div class="form-input-text">
-                        <input type="password" name="password_confirmation" />
+                        <input type="password" name="password_confirmation">
                     </div>
-                    <div class="error-massage">
-                        @error('password_confirmation')
-                            {{ $message }}
-                        @enderror
-                    </div>
+                    @error('password_confirmation')
+                        <div class="error-massage">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 

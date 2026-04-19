@@ -36,9 +36,9 @@
                         <td>{{ $request->created_at->format('Y/m/d') }}</td>
                         <td>
                             <!--
-                                ここで条件分岐！
-                                管理者なら「承認画面」、一般なら「勤怠詳細画面」へ飛ばす
-                            -->
+                                    ここで条件分岐！
+                                    管理者なら「承認画面」、一般なら「勤怠詳細画面」へ飛ばす
+                                -->
                             @can('admin')
                                 <a href="{{ route('admin.request.approve', $request->id) }}" class="detail-link">詳細</a>
                             @else
@@ -49,7 +49,7 @@
                 @empty
                     <tr>
                         <!-- 名前列が増えたので colspan を 6 にしておきます -->
-                        <td colspan="6" style="text-align: center;">申請はありません。</td>
+                        <td colspan="6" class="empty-text">申請はありません。</td>
                     </tr>
                 @endforelse
             </tbody>

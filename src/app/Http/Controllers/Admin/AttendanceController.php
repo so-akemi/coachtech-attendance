@@ -64,7 +64,7 @@ class AttendanceController extends Controller
         $attendance->update([
             'start_time' => $request->start_time ? $targetDate->format('Y-m-d') . ' ' . $request->start_time : $attendance->start_time,
             'end_time'   => $request->end_time ? $targetDate->format('Y-m-d') . ' ' . $request->end_time : $attendance->end_time,
-            'reason'      => $request->note, // Bladeのname属性はnoteですが、DBのカラム名はreasonなので注意
+            'note'      => $request->note, // Bladeのname属性はnoteですが、DBのカラム名はreasonなので注意
         ]);
 
         // 2. 休憩データの更新（既存のものをループして更新）

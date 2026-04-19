@@ -21,15 +21,13 @@
             </tr>
             <tr>
                 <th>日付</th>
-                <td>
-                    <div class="date-container">
-                        <span class="date-year">
-                            {{ Carbon\Carbon::parse($attendance->date)->format('Y年') }}
-                        </span>
-                        <span class="date-month-day">
-                            {{ Carbon\Carbon::parse($attendance->date)->isoFormat('MM月DD日') }}
-                        </span>
-                    </div>
+                <td class="date-container">
+                    <span class="date-year">
+                        {{ Carbon\Carbon::parse($attendance->date)->format('Y年') }}
+                    </span>
+                    <span class="date-month-day">
+                        {{ Carbon\Carbon::parse($attendance->date)->isoFormat('MM月DD日') }}
+                    </span>
 
                     <!-- もし、サーバー側に日付データを送る必要がある場合は、hiddenで持たせておく -->
                     @if ($isEditMode)
@@ -43,7 +41,7 @@
                     @if ($isEditMode)
                         <input type="time" name="start_time" class="start-time"
                             value="{{ old('start_time', \Carbon\Carbon::parse($attendance->start_time)->format('H:i')) }}">
-                        ～
+                        <span class="time-separator">～</span>
                         <input type="time" name="end_time" class="end-time"
                             value="{{ old('end_time', $attendance->end_time ? \Carbon\Carbon::parse($attendance->end_time)->format('H:i') : '') }}">
                         <div class="error-message">
@@ -55,7 +53,7 @@
                         </div>
                     @else
                         {{ $attendance->start_time ? Carbon\Carbon::parse($attendance->start_time)->format('H:i') : '--:--' }}
-                        ～
+                        <span class="time-separator">～</span>
                         {{ $attendance->end_time ? Carbon\Carbon::parse($attendance->end_time)->format('H:i') : '--:--' }}
                     @endif
                 </td>
@@ -69,7 +67,7 @@
                             <input type="hidden" name="rests[{{ $index }}][id]" value="{{ $rest->id }}">
                             <input class="start-time" type="time" name="rests[{{ $index }}][start_time]"
                                 value="{{ old('rests.' . $index . '.start_time', \Carbon\Carbon::parse($rest->start_time)->format('H:i')) }}">
-                            ～
+                            <span class="time-separator">～</span>
                             <input class="end-time" type="time" name="rests[{{ $index }}][end_time]"
                                 value="{{ old('rests.' . $index . '.end_time', $rest->end_time ? \Carbon\Carbon::parse($rest->end_time)->format('H:i') : '') }}">
                             @php
@@ -88,7 +86,7 @@
                             @endif
                         @else
                             {{ Carbon\Carbon::parse($rest->start_time)->format('H:i') }}
-                            ～
+                            <span class="time-separator">～</span>
                             {{ $rest->end_time ? Carbon\Carbon::parse($rest->end_time)->format('H:i') : '--:--' }}
                         @endif
                     </td>
@@ -99,9 +97,16 @@
                 <tr>
                     <th>休憩{{ count($attendance->rests) + 1 }} (新規)</th>
                     <td>
-                        <input class="start-time" type="time" name="new_rests[0][start_time]">
-                        ～
-                        <input class="end-time" type="time" name="new_rests[0][end_time]">
+                        <input class="start-time" type="time" name="new_rests[0][start_time]"
+                            value="{{ old('new_rests.0.start_time') }}">
+                        <span class="time-separator">～</span>
+                        <input class="end-time" type="time" name="new_rests[0][end_time]"
+                            value="{{ old('new_rests.0.end_time') }}">
+                        @if ($errors->has('new_rests.0.*'))
+                            <div class="error-message">
+                                {{ $errors->first('new_rests.0.start_time') ?: $errors->first('new_rests.0.end_time') }}
+                            </div>
+                        @endif
                     </td>
                 </tr>
             @endif

@@ -117,4 +117,33 @@ class Attendance extends Model
     {
         return $this->hasMany(AttendanceCorrectRequest::class);
     }
+
+    public static function getMonthlyListForUser($userId, $month)
+{
+    $startDate = Carbon::parse($month)->startOfMonth();
+    $endDate = Carbon::parse($month)->endOfMonth();
+
+    // 1. 全日付の空枠を作る
+    $list = [];
+    for ($date = $startDate->copy(); $date <= $endDate; $date->addDay()) {
+        $list[$date->format('Y-m-d')] = [
+            'date' => $date->copy(),
+            'attendance' => null
+        ];
+    }
+
+    // 2. DBからデータを取得して流し込む
+    $attendances = self::whereBetween('date', [$startDate, $endDate])
+                    ->where('user_id', $userId)
+                    ->get();
+
+    foreach ($attendances as $attendance) {
+        $dateKey = Carbon::parse($attendance->date)->format('Y-m-d');
+        if (isset($list[$dateKey])) {
+            $list[$dateKey]['attendance'] = $attendance;
+        }
+    }
+
+    return $list;
+}
 }

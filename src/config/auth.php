@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        // ★管理者用を追加
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'users', // 同じusersテーブルを使うならこのままでOK
+        ],
     ],
 
     /*

@@ -1,4 +1,11 @@
 /* 全体のコンテナ */
+
+body {
+    background-color: #E1E1E1;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+
 .attendance-content {
     max-width: 1000px;
     margin: 40px auto;
@@ -17,29 +24,58 @@
 
 /* 月選択ナビゲーション */
 .attendance-month-nav {
+    max-width: 900px;
+    width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     gap: 40px;
-    margin-bottom: 30px;
+    margin: 0 auto 30px;
     background: #fff;
-    padding: 15px;
+    padding: 15px 30px;
     border-radius: 5px;
+    box-sizing: border-box;
+        /* 幅の計算を正確にする */
+}
+
+.month-nav-img-left,
+.month-nav-img-right {
+    width: 16px;
+    height: auto;
+    vertical-align: middle;
+    margin-right: 5px;
+    color: #666666;
+}
+
+.month-nav-img-right {
+    transform: rotate(180deg);
 }
 
 .month-nav-link {
-    color: #8b8b8b;
+    display: flex;
+    align-items: center;
     text-decoration: none;
-    font-size: 14px;
+    color: #666666;
+    gap: 8px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.month-nav-link:hover {
+    opacity: 0.7;
 }
 
 .month-nav-current {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     font-size: 20px;
     font-weight: bold;
     color: #333;
+    display: flex;
+    width: 100%;
+    max-width: 155px;
+    height: 25px;
 }
 
 .calendar-icon {
@@ -50,28 +86,35 @@
 /* 勤怠テーブル */
 .attendance-table {
     width: 100%;
+    max-width: 900px;
+    height: auto;
+    margin: 0 auto;
+    background: #fff;
     border-collapse: collapse;
-    background-color: #fff;
     border-radius: 10px;
     overflow: hidden;
-    /* 角丸を適用するため */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.attendance-table th,
+.attendance-table td {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 3px solid #E1E1E1;
 }
 
 .attendance-table th {
-    padding: 15px;
-    color: #a0a0a0;
-    font-weight: normal;
-    font-size: 14px;
-    border-bottom: 1px solid #f0f0f0;
-    text-align: center;
+    background-color: #fff;
+    color: #666666;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .attendance-table td {
-    padding: 15px;
-    text-align: center;
-    border-bottom: 1px solid #f0f0f0;
-    color: #333;
-    font-size: 15px;
+    font-size: 16px;
+    color: #666666;
+    font-weight: bold;
+    border-bottom: 2px solid #E1E1E1;
 }
 
 /* リンクボタンのスタイル */
@@ -82,7 +125,37 @@
 }
 
 .detail-btn:hover {
-    text-decoration: underline;
+    opacity: 0.7;
+}
+
+.csv-export-container {
+    display: flex;
+    justify-content: flex-end;
+    max-width: 1000px;
+    margin: 20px auto 0;
+}
+
+.csv-btn {
+    display: inline-block;
+    justify-content: flex-end;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 5px 15px;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: 0.3s;
+    margin-top: 40px;
+    width: 184px;
+    height: 50px;
+    text-align: center;
+}
+
+.csv-btn:hover {
+    background-color: #333;
+    color: #fff;
 }
 
 /* レスポンシブ対応（お好みで） */

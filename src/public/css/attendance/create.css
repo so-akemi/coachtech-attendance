@@ -1,6 +1,7 @@
 /* 1. 画面全体の背景色と中央寄せ */
 body {
-    background-color: #f2f2f4;
+    background-color: #E1E1E1;
+    font-family: 'Inter', sans-serif;
 }
 
 /* 2. コンテンツ全体のレイアウト */
@@ -24,9 +25,12 @@ body {
 
 /* 4. 日付と時刻 */
 .attendance-date {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
     margin: 0;
+    display: block;
+    width: 100%;
+    text-align: center;
 }
 
 .attendance-time {
@@ -34,7 +38,11 @@ body {
     /* 大きな時刻 */
     font-weight: 900;
     margin: 10px 0 40px 0;
-    letter-spacing: -2px;
+    letter-spacing: 0;
+    font-variant-numeric: tabular-nums;
+    display: block;
+    width: 100%;
+    text-align: center;
 }
 
 /* 5. 出勤ボタン（黒い丸角ボタン） */
@@ -57,7 +65,62 @@ body {
     opacity: 0.8;
 }
 
+.btn-clock-out, .btn-break-start, .btn-break-end {
+    display: inline-block;
+    padding: 15px 0;
+    /* 上下15px */
+    width: 180px;
+    /* 画像のイメージに近い幅に調整 */
+    font-size: 24px;
+    /* 文字を少し大きく */
+    font-weight: bold;
+    border-radius: 12px;
+    /* 角丸の具合を調整 */
+    cursor: pointer;
+    transition: opacity 0.2s;
+    border: none;
+    text-align: center;
+}
+
+.btn-clock-out {
+    background-color: #000;
+    color: #fff;
+}
+
+.btn-break-start {
+    background-color: #ffffff;
+    color: #000;
+}
+
+.btn-break-end {
+    background-color: #ffffff;
+    color: #000;
+}
+
+.btn-clock-out:hover,
+.btn-break-start:hover,
+.btn-break-end:hover {
+    opacity: 0.8;
+}
+
+.attendance-actions {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 20px;
+}
 /* その他ボタンが必要な場合の微調整 */
 .attendance-actions form {
     margin-bottom: 10px;
+}
+
+.message {
+    display: block;
+    margin-top: 30px;
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    text-indent: 0.5em;
 }

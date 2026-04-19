@@ -10,12 +10,18 @@
 
         <!-- 月選択ナビゲーション -->
         <div class="month-nav">
-            <a href="{{ route('attendance.index', ['month' => $prevMonth]) }}" class="month-nav-link">← 前月</a>
+            <a href="{{ route('attendance.index', ['month' => $prevMonth]) }}" class="month-nav-link">
+                <img class="month-nav-img-left" src="{{ asset('img/arrow-left.png') }}" alt="前月">
+                前月
+            </a>
             <span class="month-nav-current">
                 <span class="calendar-icon material-symbols-outlined">calendar_month</span>
                 {{ $currentMonth->format('Y/m') }}
             </span>
-            <a href="{{ route('attendance.index', ['month' => $nextMonth]) }}" class="month-nav-link">翌月 →</a>
+            <a href="{{ route('attendance.index', ['month' => $nextMonth]) }}" class="month-nav-link">
+                翌月
+                <img class="month-nav-img-right" src="{{ asset('img/arrow-right.png') }}" alt="翌月">
+            </a>
         </div>
 
         <!-- 勤怠テーブル -->
@@ -31,23 +37,33 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($attendances as $attendance)
+                @foreach ($attendanceList as $item)
                     <tr>
-                        <td>{{ Carbon\Carbon::parse($attendance->date)->isoFormat('MM/DD(ddd)') }}</td>
-                        <td>{{ $attendance->start_time ? Carbon\Carbon::parse($attendance->start_time)->format('H:i') : '' }}
-                        </td>
-                        <td>{{ $attendance->end_time ? Carbon\Carbon::parse($attendance->end_time)->format('H:i') : '' }}
-                        </td>
+                        {{-- 日付：$item['date'] は Carbonインスタンス --}}
+                        <td>{{ $item['date']->isoFormat('MM/DD(ddd)') }}</td>
 
-                        <!-- 休憩合計を表示 -->
-                        <td>{{ $attendance->getTotalRestTime() }}</td>
-
-                        <!-- 勤務合計を表示 -->
-                        <td>{{ $attendance->getWorkingTime() }}</td>
-
-                        <td>
-                            <a href="{{ route('attendance.show', $attendance->id) }}" class="detail-btn">詳細</a>
-                        </td>
+                        {{-- データ（$item['attendance']）が存在する場合 --}}
+                        @if ($item['attendance'])
+                            @php $attendance = $item['attendance']; @endphp
+                            <td>{{ $attendance->start_time ? Carbon\Carbon::parse($attendance->start_time)->format('H:i') : '' }}
+                            </td>
+                            <td>{{ $attendance->end_time ? Carbon\Carbon::parse($attendance->end_time)->format('H:i') : '' }}
+                            </td>
+                            <td>{{ $attendance->getTotalRestTime() }}</td>
+                            <td>{{ $attendance->getWorkingTime() }}</td>
+                            <td>
+                                <a href="{{ route('attendance.show', $attendance->id) }}" class="detail-btn">詳細</a>
+                            </td>
+                        @else
+                            {{-- データがない日は空白で表示 --}}
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <a href="#" class="detail-btn">詳細</a>
+                            </td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>

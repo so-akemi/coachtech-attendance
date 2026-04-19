@@ -34,9 +34,13 @@ class RequestController extends Controller
             //●$requests = $query->where('status', $statusValue)->latest()->get();
         //●} else {
         // 一般ユーザーは自分の申請だけを取得
-        $requests = $query//->where('user_id', Auth::id())
-                          ->latest()
-                          ->get();
+        //$requests = $query->where('user_id', Auth::id())
+                          //->latest()
+                          //->get();
+        $requests = AttendanceCorrectRequest::where('user_id', auth()->id())
+            ->where('status', $statusValue)
+            ->latest()
+            ->get();
         //●$requests = $query->where('status', $statusValue)
                           //●->where('user_id', auth()->id())
                           //●->latest()

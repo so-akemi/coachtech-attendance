@@ -2,10 +2,10 @@
     //ログイン中かつ is_admin かどうかで判定
     if (Auth::check() && Auth::user()->is_admin) {
         $headerMenus = [
-            '勤怠一覧' => '/admin/attendance/list',
-            'スタッフ一覧' => '/admin/staff/list',
-            '申請一覧' => '/stamp_correction_request/list',
-            'ログアウト' => '/logout',
+            '勤怠一覧' => route('admin.attendance.index'),
+            'スタッフ一覧' => route('admin.staff.index'),
+            '申請一覧' => route('request.index'),
+            'ログアウト' => route('admin.logout'),
         ];
     } elseif (Auth::check()) {
         // 一般ユーザー
@@ -14,17 +14,17 @@
         if (isset($isAfterWork) && $isAfterWork) {
             // 勤怠登録画面（退勤後など）
             $headerMenus = [
-                '今月の出勤一覧' => '/attendance/list',
-                '申請一覧' => '/stamp_correction_request/list',
-                'ログアウト' => '/logout',
+                '今月の出勤一覧' => route('attendance.index'),
+                '申請一覧' => route('request.index'),
+                'ログアウト' => route('logout'),
             ];
         } else {
             // 一般ユーザー（is_admin が false）の場合
             $headerMenus = [
-                '勤怠' => '/attendance',
-                '勤怠一覧' => '/attendance/list',
-                '申請' => '/stamp_correction_request/list',
-                'ログアウト' => '/logout',
+                '勤怠' => route('attendance.create'),
+                '勤怠一覧' => route('attendance.index'),
+                '申請' => route('request.index'),
+                'ログアウト' => route('logout'),
             ];
         }
     } else {
@@ -42,7 +42,11 @@
     <title>coachtech 勤怠管理アプリ</title>
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/common.css') }}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     @yield('css')
 </head>
 

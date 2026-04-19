@@ -1,13 +1,14 @@
 /* 全体のコンテナ */
 body {
-    background-color: #f5f5f5;
+    background-color: #E1E1E1;
+    font-family: 'Inter', sans-serif;
 }
 
 .attendance-detail {
     max-width: 800px;
     margin: 40px auto;
     padding: 20px;
-    background-color: #f5f5f5;
+    background-color: #E1E1E1;
     /* 背景は薄いグレー */
 }
 
@@ -32,7 +33,7 @@ body {
 
 /* 各行の設定 */
 .detail-table tr {
-    border-bottom: 1px solid #eee;
+    border-bottom: 2px solid #E1E1E1;
 }
 
 .detail-table tr:last-child {
@@ -46,6 +47,7 @@ body {
     text-align: left;
     color: #666;
     font-size: 14px;
+    border-bottom: 2px solid #E1E1E1;
 }
 
 /* データ表示・入力列 */

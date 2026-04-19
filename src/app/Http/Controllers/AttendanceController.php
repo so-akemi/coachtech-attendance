@@ -80,14 +80,16 @@ class AttendanceController extends Controller
         $prevMonth = $currentMonth->copy()->subMonth()->format('Y-m');
         $nextMonth = $currentMonth->copy()->addMonth()->format('Y-m');
 
-        $attendances = Attendance::where('user_id', $userId)
-            ->whereYear('date', $currentMonth->year)
-            ->whereMonth('date', $currentMonth->month)
-            ->orderBy('date', 'asc')
-            ->get();
+        //$attendances = Attendance::where('user_id', $userId)
+            //->whereYear('date', $currentMonth->year)
+            //->whereMonth('date', $currentMonth->month)
+            //->orderBy('date', 'asc')
+            //->get();
+
+        $attendanceList = Attendance::getMonthlyListForUser($userId, $monthParam);
 
         return view('attendance.index', compact(
-            'attendances',
+            'attendanceList',
             'currentMonth',
             'prevMonth',
             'nextMonth'
