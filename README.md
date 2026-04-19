@@ -1,7 +1,7 @@
-# coachtechフリマ
+# coachtech 勤怠管理アプリ
 
-独自のCtoCフリマアプリ開発プロジェクトです。
-10〜30代の社会人をターゲットに、シンプルで使いやすい出品・購入体験を提供することを目的としています。
+企業向けの独自勤怠管理システムです。
+社会人全般をターゲットに、日々の出勤・退勤の打刻、および管理者による勤怠管理・修正申請の承認機能を提供することを目的としています。
 
 ## 推奨環境
 - **ブラウザ**: Chrome / Firefox / Safari (最新版)
@@ -11,8 +11,8 @@
 
 ### リポジトリのクローンと起動
 #### Dockerビルド  
-1. `git clone git@github.com:so-akemi/coachtech-frima.git`  
-2. `cd coachtech-frima`  
+1. `git@github.com:so-akemi/coachtech-attendance.git`
+2. `cd coachtech-attendance`  
 3. DockerDesktopアプリを立ち上げる  
 4. `docker-compose up -d --build`
 
@@ -26,8 +26,6 @@
 `cp .env.example .env`
 - アプリケーションキーの生成  
 `php artisan key:generate`
-- ストレージリンクの作成（商品画像表示用）  
-`php artisan storage:link`
 
 ### データベース接続設定と構築
 ####  .envファイルの設定(srcディレクトリ直下)  
@@ -54,15 +52,6 @@
     MAIL_FROM_NAME="${APP_NAME}"
     ```
 
-- 決済機能（stripe）の設定  
-     本アプリの動作確認には、Stripeのテスト用APIキーが必要です。
-     [Stripeダッシュボード※要ログイン](https://dashboard.stripe.com/test/apikeys)から取得したキーを、以下の項目に設定してください。
-    ```  
-     STRIPE_PUBLIC_KEY=pk_test_...（ご自身の公開鍵を貼り付け）  
-     STRIPE_SECRET_KEY=sk_test_...（ご自身の秘密鍵を貼り付け）
-    ```
-
-
 ※ Note: 権限エラーで保存できない場合は、下記コマンドをプロジェクトルート（srcディレクトリ等）で実行してください。 
 ``` 
 sudo chown -R $USER:$USER . 
@@ -80,7 +69,6 @@ php artisan cache:clear
 `php artisan migrate --seed`  
 
 ### ディレクトリ権限の設定
-#### ファイルの書き込みエラーを防ぐため、コンテナ内の src ディレクトリにて以下の権限付与を実行してください。
 `chmod -R 777 storage bootstrap/cache`
 
 
@@ -97,32 +85,46 @@ docker-compose up -d
 - MySQL 8.0.26
 - Nginx 1.21.1
 - Docker / Docker Compose
-- Stripe API
 
 ## ER図
-![ER図](docs/er-diagram.drawio.png)
+※あとで挿入
 
-URL一覧
-- トップ画面: http://localhost/  
-- ログイン画面: http://localhost/login
-- 会員登録画面: http://localhost/register
-- マイページ: http://localhost/mypage
-- phpMyAdmin: http://localhost:8080/
+## URL一覧
+### 一般ユーザー用
+- ログイン: `http://localhost/login`
+- 会員登録: `http://localhost/register`
+- 打刻画面: `http://localhost/attendance`
+- 勤怠一覧: `http://localhost/attendance/list`
+- 申請一覧: `http://localhost/stamp_correction_request/list`
+
+### 管理者用
+- 管理者ログイン: `http://localhost/admin/login`
+- 勤怠一覧: `http://localhost/admin/attendance/list`
+- スタッフ一覧: `http://localhost/admin/staff/list`
+
+### DB
+- phpMyAdmin: `http://localhost:8080/`
 
 ## 機能一覧
-- 認証機能: ログイン・ログアウト・会員登録
-- 商品一覧: 商品の全件表示・商品名によるキーワード検索
-- 商品詳細: 商品情報の閲覧・コメント投稿
-- お気に入り機能: 商品詳細画面での登録/解除
-- 出品機能: 商品画像のアップロード・価格/カテゴリ設定
-- 購入機能: 商品の購入処理
-- プロフィール: プロフィール画像・住所・氏名の編集
-- マイページ: 出品した商品・購入した商品・お気に入りした商品のリスト表示
+### ユーザー機能
+- **認証**: ログイン、ログアウト、会員登録
+- **勤怠打刻**: 出勤・退勤の記録（休憩含む）
+- **勤怠閲覧**: 自身の勤怠状況の確認、詳細表示
+- **修正申請**: 打刻漏れやミスに対する修正申請
+
+### 管理者機能
+- **管理者ログイン**: 管理者専用画面へのアクセス
+- **勤怠管理**: 全スタッフの勤怠一覧・詳細の閲覧
+- **スタッフ管理**: 在籍スタッフのリスト確認
+- **承認機能**: ユーザーからの修正申請に対する承認・却下
 
 ## テスト用ログイン情報
-php artisan db:seed 実行後、以下のユーザーで即座に動作確認が可能です。
+`php artisan db:seed` 実行後、以下のユーザーが利用可能です。
 
-- メールアドレス：test123@example.com
-- パスワード：coachtech123test
-- 郵便番号：123-4567
-- 住所：東京都渋谷区テスト123
+### 一般ユーザー
+- **メールアドレス**: user@example.com
+- **パスワード**: testpassword
+
+### 管理者ユーザー
+- **メールアドレス**: admin@example.com
+- **パスワード**: adminpassword
