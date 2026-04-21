@@ -11,7 +11,7 @@
 
 ### リポジトリのクローンと起動
 #### Dockerビルド  
-1. `git@github.com:so-akemi/coachtech-attendance.git`
+1. `git clone git@github.com:so-akemi/coachtech-attendance.git`
 2. `cd coachtech-attendance`  
 3. DockerDesktopアプリを立ち上げる  
 4. `docker-compose up -d --build`
