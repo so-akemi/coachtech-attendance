@@ -16,7 +16,7 @@ class CreateAttendanceCorrectRequestsTable extends Migration
         Schema::create('attendance_correct_requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('attendance_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('attendance_id')->nullable()->constrained()->cascadeOnDelete(); // 対象の勤怠レコード（nullの場合は新規申請）
 
             // 修正後の時間を保存するカラム
             $table->time('start_time');

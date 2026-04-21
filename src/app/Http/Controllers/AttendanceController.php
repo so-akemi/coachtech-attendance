@@ -217,7 +217,7 @@ class AttendanceController extends Controller
 
         // 2. 勤怠本体の更新
         // ※ old() で返ってきた値や $request の値で更新します
-        \App\Models\AttendanceCorrectRequest::create([
+        $correctRequest = \App\Models\AttendanceCorrectRequest::create([
             'attendance_id' => $attendance->id,
             'user_id'       => Auth::id(),
             'start_time'    => $request->start_time ? $date . ' ' . $request->start_time : $attendance->start_time,
@@ -241,14 +241,12 @@ class AttendanceController extends Controller
         }
 
         if ($request->has('new_rests')) {
-        foreach ($request->new_rests as $newData) {
-            // 開始時刻が入力されている場合のみ保存
-            if (!empty($newData['start_time'])) {
-                Rest::create([
-                    'attendance_id' => $attendance->id,
-                    'start_time'    => $date . ' ' . $newData['start_time'],
-                    'end_time'      => !empty($newData['end_time']) ? $date . ' ' . $newData['end_time'] : null,
-                ]);
+            foreach ($request->new_rests as $newData) {
+                if (!empty($newData['start_time']) && !empty($newData['end_time'])) {
+                    $correctRequest->restCorrectRequests()->create([
+                        'start_time' => $date . ' ' . $newData['start_time'],
+                        'end_time'   => $date . ' ' . $newData['end_time'],
+                    ]);
                 }
             }
         }

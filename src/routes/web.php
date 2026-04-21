@@ -76,6 +76,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Route::get('/stamp_correction_request/list', [AdminRequestController::class, 'index'])->name('request.index');
 
+    Route::middleware(['auth', 'verified', 'admin'])->group(function () {
+    // PG13: 承認画面
+        Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}', [AdminRequestController::class, 'showApprove'])->name('admin.request.approve');
+        Route::post('/stamp_correction_request/approve/{attendance_correct_request_id}', [AdminRequestController::class, 'approve'])->name('admin.request.approve.post');
+    });
+
     // --- 管理者専用 (PG08 - PG11, PG13) ---
     // 先ほど作った 'admin' ミドルウェアでガード
     Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -91,9 +97,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // PG10, PG11: スタッフ管理
         Route::get('/staff/list', [AdminStaffController::class, 'index'])->name('staff.index');
         Route::get('/attendance/staff/{id}', [AdminStaffController::class, 'staffAttendance'])->name('attendance.staff');
-
-        // PG13: 承認画面
-        Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}', [AdminRequestController::class, 'showApprove'])->name('request.approve');
-        Route::post('/stamp_correction_request/approve/{attendance_correct_request_id}', [AdminRequestController::class, 'approve'])->name('request.approve.post');
     });
 });

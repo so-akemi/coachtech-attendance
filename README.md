@@ -87,7 +87,7 @@ docker-compose up -d
 - Docker / Docker Compose
 
 ## ER図
-※あとで挿入
+![ER図](docs/er-diagram.drawio.png)
 
 ## URL一覧
 ### 一般ユーザー用
@@ -128,3 +128,6 @@ docker-compose up -d
 ### 管理者ユーザー
 - **メールアドレス**: admin@example.com
 - **パスワード**: adminpassword
+
+※動作確認時の注意：
+テストユーザー（user@example.com）は、当日の勤怠データが登録されていない状態でシードされます。ログイン後、ホーム画面にて「出勤」ボタンの打刻動作から確認することが可能です。

@@ -47,3 +47,22 @@
     padding: 0;
     font-weight: bold;
 }
+
+.alert {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid;
+    border-radius: 4px;
+}
+
+.alert-success {
+    color: green;
+    background: #e6ffe6;
+    border-color: green;
+}
+
+.alert-error {
+    color: red;
+    background: #ffe6e6;
+    border-color: red;
+}

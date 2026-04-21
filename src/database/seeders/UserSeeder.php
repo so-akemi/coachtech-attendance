@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         // 一般ユーザーの作成
-        User::create([
+        $testUser =User::create([
             'name' => 'テストユーザー',
             'email' => 'user@example.com',
             'password' => Hash::make('testpassword'),
@@ -35,17 +35,23 @@ class UserSeeder extends Seeder
             'is_admin' => true,
         ]);
 
-        $users = User::factory()->count(5)->create(['is_admin' => false]);
+        $extraUsers = User::factory()->count(5)->create(['is_admin' => false]);
+
+        $allUsers = collect([$testUser])->concat($extraUsers);
 
         // 今月の開始日から終了日までを取得
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now()->endOfMonth();
         $period = CarbonPeriod::create($startOfMonth, $endOfMonth);
 
-        foreach ($users as $user) {
+        foreach ($allUsers as $user) {
             foreach ($period as $date) {
                 // 土日を除外
                 if ($date->isWeekend()) {
+                    continue;
+                }
+
+                if ($date->isToday()) {
                     continue;
                 }
 
@@ -87,24 +93,64 @@ class UserSeeder extends Seeder
             }
         }
 
+        $faker = \Faker\Factory::create('ja_JP');
+
         // 特定のユーザーに「承認待ち」の申請を作る
-        $targetUser = $users->first();
+        $targetUsers = collect([
+            $testUser,
+            $extraUsers->random(), // 追加したユーザーのうちの最初
+        ]);
 
-        for ($i = 1; $i <= 3; $i++) {
-            Attendance::factory()->create([
-                'user_id' => $targetUser->id,
-                'date'    => Carbon::now()->addMonth()->startOfMonth()->addDays($i)->format('Y-m-d'),
-                'status'  => 1, // 承認待ち
-             ]);
-        }
+        foreach ($targetUsers as $user) {
 
-        // 特定のユーザーに「承認済み」の申請を作る
-        for ($i = 11; $i <= 12; $i++) {
-            Attendance::factory()->create([
-                'user_id' => $targetUser->id,
-                'date'    => Carbon::now()->addMonth()->startOfMonth()->addDays($i)->format('Y-m-d'),
-                'status'  => 2, // 承認済み
-            ]);
+            for ($dayOffset = 1; $dayOffset <= 3; $dayOffset++) {
+                $attendance = Attendance::factory()->create([
+                    'user_id' => $user->id, // $targetUser->id ではなく $user->id に修正
+                    'date'    => Carbon::now()->addMonth()->startOfMonth()->addDays($dayOffset)->format('Y-m-d'),
+                    'status'  => 0, // 承認待ち
+                    'note'    => $faker->randomElement([
+                        '打刻ミス',
+                        '電車遅延',
+                        '入力忘れ',
+                        '直行のため',
+                        '直帰のため',
+                        '寝坊です',
+                        '体調不良',
+                    ]),
+                ]);
+
+                 \DB::table('attendance_correct_requests')->insert([
+                    'user_id'       => $user->id,
+                    'attendance_id' => $attendance->id,
+                    'start_time'    => '09:00:00',
+                    'end_time'      => '18:00:00',
+                    'status'        => 0, // 承認待ち
+                    'reason'        => $attendance->note,
+                    'created_at'    => now(),
+                    'updated_at'    => now(),
+                ]);
+            }
+
+            // 特定のユーザーに「承認済み」の申請を作る
+            for ($dayOffset = 11; $dayOffset <= 12; $dayOffset++) {
+                $attendance = Attendance::factory()->create([
+                    'user_id' => $user->id,
+                    'date'    => Carbon::now()->addMonth()->startOfMonth()->addDays($dayOffset)->format('Y-m-d'),
+                    'status'  => 1, // 承認済み
+                    'note'    => $attendance->note?? '修正済み',
+                ]);
+
+                \DB::table('attendance_correct_requests')->insert([
+                    'user_id'       => $user->id,
+                    'attendance_id' => $attendance->id,
+                    'start_time'    => '10:00:00',
+                    'end_time'      => '19:00:00',
+                    'status'        => 1, // 承認済み
+                    'reason'        => $attendance->note?? '修正済み',
+                    'created_at'    => now(),
+                    'updated_at'    => now(),
+                ]);
+            }
         }
     }
 }

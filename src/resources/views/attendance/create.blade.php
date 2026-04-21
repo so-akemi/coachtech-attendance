@@ -22,7 +22,7 @@
 
         <div class="attendance-timer">
             <!--<p class="attendance-date">{{ now()->format('Y年m月d日(D)') }}</p>
-                    <p class="attendance-time">{{ now()->format('H:i') }}</p> -->
+                        <p class="attendance-time">{{ now()->format('H:i') }}</p> -->
             <div id="date" class="attendance-date"></div>
             <div id="time" class="attendance-time"></div>
 
@@ -88,6 +88,17 @@
 
         // 1秒（1000ミリ秒）ごとに実行
         setInterval(updateClock, 1000);
+
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', () => {
+                // 送信ボタンを取得して無効化する
+                const button = form.querySelector('button[type="submit"]');
+                if (button) {
+                    button.disabled = true;
+                    button.classList.add('is-loading'); 
+                }
+            });
+        });
 
         // ページ読み込み時にも即座に表示
         updateClock();
