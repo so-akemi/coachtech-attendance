@@ -53,7 +53,7 @@
 
         <div class="detail-action">
             @if ($correctRequest->status == 0)
-                <!-- 承認待ち(0)の場合：承認ボタンを表示 (POST送信) -->
+
                 <form action="{{ route('admin.request.approve.post', $correctRequest->id) }}" method="POST">
                     @csrf
                     <button type="submit" class="approve-submit-button">承認</button>

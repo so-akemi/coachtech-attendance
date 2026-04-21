@@ -6,11 +6,11 @@
 
 @section('content')
     <div class="attendance-list">
-        <!-- 設計書に合わせ「2023年6月1日の勤怠」のようなタイトルにするなら -->
+
         <h1 class="attendance-list-title">{{ $currentDate->format('Y年n月j日') }}の勤怠</h1>
 
         <div class="attendance-day-nav">
-            <!-- route名は管理者用に設定したものに変更してください -->
+
             <a href="{{ route('admin.attendance.index', ['date' => $prevDate]) }}" class="day-nav-link">
                 <img class="day-nav-img-left" src="{{ asset('img/arrow-left.png') }}" alt="前日">
                 前日
@@ -29,7 +29,7 @@
         <table class="attendance-table">
             <thead>
                 <tr>
-                    <th>名前</th> <!-- ヘッダーは名前 -->
+                    <th>名前</th>
                     <th>出勤</th>
                     <th>退勤</th>
                     <th>休憩</th>
@@ -40,7 +40,7 @@
             <tbody>
                 @foreach ($attendances as $attendance)
                     <tr>
-                        <!-- 1列目はユーザー名を表示 -->
+
                         <td>{{ $attendance->user->name }}</td>
 
                         <td>{{ $attendance->start_time ? Carbon\Carbon::parse($attendance->start_time)->format('H:i') : '' }}
@@ -52,7 +52,7 @@
                         <td>{{ $attendance->getWorkingTime() }}</td>
 
                         <td>
-                            <!-- 管理者用の詳細（承認画面など）へのリンクにする -->
+
                             <a href="{{ route('admin.attendance.show', $attendance->id) }}" class="detail-link">詳細</a>
                         </td>
                     </tr>

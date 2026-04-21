@@ -8,7 +8,7 @@
     <div class="attendance-detail">
         <h1 class="attendance-detail-title">勤怠詳細</h1>
 
-        <!-- 承認待ちでなく、かつ修正モードの時だけフォームを開始 -->
+
         @if ($isEditMode && !$attendance->isPending())
             <form action="{{ route('admin.attendance.update', $attendance->id) }}" method="POST">
                 @csrf
@@ -30,7 +30,7 @@
             <tr>
                 <th>出勤・退勤</th>
                 <td>
-                    <!-- 承認待ちでない修正モードのみinputを表示 -->
+
                     @if ($isEditMode && !$attendance->isPending())
                         <input type="time" name="start_time" class="start-time"
                             value="{{ old('start_time', \Carbon\Carbon::parse($attendance->start_time)->format('H:i')) }}">
@@ -38,7 +38,7 @@
                         <input type="time" name="end_time" class="end-time"
                             value="{{ old('end_time', $attendance->end_time ? \Carbon\Carbon::parse($attendance->end_time)->format('H:i') : '') }}">
 
-                        <!-- FN039: バリデーションエラー表示 -->
+
                         <div class="error-message">
                             @error('start_time')
                                 {{ $message }}
@@ -48,7 +48,7 @@
                             @enderror
                         </div>
                     @else
-                        <!-- 表示モード、または承認待ちの場合 -->
+
                         {{ $attendance->start_time ? \Carbon\Carbon::parse($attendance->start_time)->format('H:i') : '--:--' }}
                         <span class="time-separator">～</span>
                         {{ $attendance->end_time ? \Carbon\Carbon::parse($attendance->end_time)->format('H:i') : '--:--' }}
@@ -56,7 +56,7 @@
                 </td>
             </tr>
 
-            <!-- 休憩時間のループ -->
+
             @foreach ($attendance->rests as $index => $rest)
                 <tr>
                     <th>休憩{{ $index === 0 ? '' : $index + 1 }}</th>
@@ -119,13 +119,13 @@
 
         <div class="detail-action">
             @if ($attendance->isPending())
-                <!-- FN038: 承認待ちの時はボタンの場所にメッセージを表示 -->
+
                 <p class="status-alert-box">*承認待ちのため修正はできません。</p>
             @elseif ($isEditMode)
-                <!-- 修正モード（承認待ち以外） -->
+
                 <button type="submit" class="submit-button">修正</button>
             @else
-                <!-- 詳細表示モード（承認待ち以外） -->
+
                 <a href="{{ route('admin.attendance.show', ['id' => $attendance->id, 'mode' => 'edit']) }}"
                     class="edit-link">修正</a>
             @endif

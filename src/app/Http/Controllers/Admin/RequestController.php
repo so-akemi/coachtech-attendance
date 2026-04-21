@@ -53,7 +53,6 @@ class RequestController extends Controller
             $attendance->update([
                 'start_time' => $correctRequest->start_time,
                 'end_time'   => $correctRequest->end_time,
-                // 'note'       => $correctRequest->note,
                 'note'      => $correctRequest->reason,
             ]);
 

@@ -64,7 +64,7 @@ class AttendanceController extends Controller
         $attendance->update([
             'start_time' => $request->start_time ? $targetDate->format('Y-m-d') . ' ' . $request->start_time : $attendance->start_time,
             'end_time'   => $request->end_time ? $targetDate->format('Y-m-d') . ' ' . $request->end_time : $attendance->end_time,
-            'note'      => $request->note, // Bladeのname属性はnoteですが、DBのカラム名はreasonなので注意
+            'note'      => $request->note,
         ]);
 
         // 2. 休憩データの更新（既存のものをループして更新）
@@ -79,7 +79,6 @@ class AttendanceController extends Controller
             }
         }
 
-        // ★ 3. 新規追加された休憩（new_rests）を保存する処理を追記
         if ($request->has('new_rests')) {
             foreach ($request->new_rests as $newData) {
                 // 開始時間と終了時間の両方が入力されている場合のみ保存
@@ -97,7 +96,7 @@ class AttendanceController extends Controller
 
     public function approve(Request $request, $id)
     {
-        // $id は Attendance の ID ではなく、AttendanceCorrectRequest の ID を想定
+
         $correctRequest = \App\Models\AttendanceCorrectRequest::findOrFail($id);
         $attendance = Attendance::findOrFail($correctRequest->attendance_id);
 
@@ -108,7 +107,7 @@ class AttendanceController extends Controller
                 'start_time' => $correctRequest->start_time,
                 'end_time'   => $correctRequest->end_time,
                 // 'note'       => $correctRequest->note,
-                'reason'      => $correctRequest->reason, // Bladeのname属性はnoteですが、DBのカラム名はreasonなので注意
+                'reason'      => $correctRequest->reason,
             ]);
 
             // 2. 既存の休憩データを一度削除（上書きするため）
